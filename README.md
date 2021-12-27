@@ -21,3 +21,6 @@ The perception and processing of temporal information are tasks the brain must c
 >> use `space` to skip and `Q/q` to quit.
 
 >> select your other responses using `left-clik`.
+
+<sub><sup>There are functions in `utils` file that could be usefull for any **Psychopye** project.</sup></sub>
+
