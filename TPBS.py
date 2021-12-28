@@ -1,4 +1,4 @@
-from Utils import displayImg , getUserInfo , getMood ,getGender  , getDomHand , SAM, playSound ,playMovie, trial_phase_1 , trial_phase_2  , test_phase , SaveDate , rest 
+from Utils import displayImg , getUserInfo , getMood , getGender , getDiseasRec , getDomHand , SAM , playSound , playMovie , trial_phase_1 , trial_phase_2  , test_phase , SaveDate , rest 
 from psychopy import visual , core , event 
 
 usrId , usrName , usrAge  = getUserInfo()
@@ -8,7 +8,7 @@ windows = visual.Window(
     fullscr = True,
     units = "pix",
     color = [1,1,1]
-    )   
+ )   
 
 usrGender = getGender(windows)
 
@@ -16,19 +16,40 @@ usrLR = getDomHand(windows)
 
 usrMood = getMood(windows)
 
+usrDiseasRec = getDiseasRec(windows)
+
+displayImg(windows,"instruction_0_0",0,True)
+event.waitKeys()
+displayImg(windows,"instruction_0_1",0,True)
+event.waitKeys()
+
+SAM_1_res_1 = SAM(windows , True)
+displayImg(windows,"instruction_0_2",0,True)
+event.waitKeys()
+SAM_1_res_2 = SAM(windows , False) 
+SAM_1_res = [SAM_1_res_1 , SAM_1_res_2]
+
+playMovie(windows , str(usrMood))
+
+displayImg(windows,"instruction_1_0",0,True)
+event.waitKeys()
+displayImg(windows,"instruction_1_1",0,True)
+event.waitKeys()
+SAM_2_res_1 = SAM(windows , True)
+displayImg(windows,"instruction_1_2",0,True)
+event.waitKeys()
+SAM_2_res_2 = SAM(windows , False)
+
+
+SAM_2_res = [SAM_2_res_1 , SAM_2_res_2]
+
+SAM_res = [SAM_1_res , SAM_2_res]
 
 displayImg(windows,"startGreeting",0,True)
 event.waitKeys()
 
 displayImg(windows,"instruction",0,True)
 event.waitKeys()
-
-
-res = SAM(windows)
-    
-
-playMovie(windows , str(usrMood))
-
 '''
 Trial Phases :
     1- 12 trial 
@@ -55,7 +76,7 @@ else :
     key_conterblnc_dir = False # k = short , d = long
     
 trial_phase_1(usrId , windows , short_t , long_t , sequence , 0.5,key_conterblnc_dir)
-trial_phase_2(windows , sequence , key_conterblnc_dir)
+trial_phase_2(windows , sequence , key_conterblnc_dir)    
 
 '''
 Test Phase
@@ -72,9 +93,9 @@ Test Phase
     
     
 '''
-Trial , RT , RK , Choice , Cond , Block , A_V = test_phase (windows , key_conterblnc_dir, usrId , usrName , usrAge , usrGender , usrLR , usrMood)
+Trial , RT , RK , Choice , Cond , Block , A_V = test_phase (windows , key_conterblnc_dir, usrId , usrName , usrAge , usrGender , usrLR , usrMood , usrDiseasRec , SAM_res)
 
-SaveDate(usrId , usrName , usrAge , usrGender ,usrLR ,usrMood , Trial , RT , RK , Choice , Cond  , Block , A_V)
+SaveDate(usrId , usrName , usrAge , usrGender ,usrLR ,usrMood , usrDiseasRec , SAM_res , Trial , RT , RK , Choice , Cond  , Block , A_V)
 
 
 windows.close()
