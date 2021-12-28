@@ -22,7 +22,20 @@ def playSound(soundName , duration , win):
 def playMovie(windows , movieName):
     if movieName == "Anger" :
         movieName = 'AmericanHistory'
-    mov = visual.MovieStim3(win = windows, filename = "stimuli\Videos\\" + movieName + ".mkv", flipVert=False , colorSpace='rgb')
+    if movieName == "Fear" :
+        movieName = 'Roadkill'
+    if movieName == "Disgust" :
+        movieName = 'Hellraiser'
+    if movieName == "Sadness" :
+        movieName = 'TheChamp'
+    if movieName == "Neutral" :
+        movieName = 'TheChamp'
+    if movieName == "Happiness" :
+        movieName = 'Mr.Been.Exam'
+    if movieName == "Tenderness" :
+        movieName = 'The.dead.poets.society'
+        
+    mov = visual.MovieStim3(win = windows, filename = "stimuli\Videos\\" + movieName + ".mkv", flipVert=False , colorSpace='rgb' , size=(1700, 960))
     while mov.status != visual.FINISHED:
         mov.draw()
         windows.flip()
@@ -47,7 +60,7 @@ def displayImg(win ,imgName , duration , instr):
     
 def getMood(windows):
     displayImg(windows,"moodSel",0,True)
-    numK = event.waitKeys(keyList=['1','2','3','4','5','6',',7'] , clearEvents = True)
+    numK = event.waitKeys(keyList=['1','2','3','4','5','6','7'] , clearEvents = True)
     if '1' in numK :
         Usrmood = 'Fear'
     elif '2' in numK :
@@ -84,12 +97,24 @@ def getDomHand(windows):
     else:
         DominH = 'Right handed'
     return DominH
+def getDiseasRec(windows):
+    displayImg(windows,"DiseaseRec",0,True)
+    resK = event.waitKeys(keyList=['y' , 'Y' , 'n' , 'N'] , clearEvents = True)
     
+    if 'y' in resK or 'Y' in resK :
+        Rec = 'Yes'
+    else:
+        Rec = 'No'
+    return Rec
     
-def SAM(windows):
+def SAM(windows , first):
     
+    if first :
+        name = 'SAM'
+    else :
+        name = 'SAM2'
     mouse = event.Mouse(visible=True, newPos=None, win=windows)
-    background_image = visual.ImageStim(windows,image= 'stimuli\VisualStimuli\\' + 'SAM' + '.png')
+    background_image = visual.ImageStim(windows,image= 'stimuli\VisualStimuli\\' + name + '.png')
     Y_up = -22
     Y_down = -69
     again = False
@@ -298,7 +323,7 @@ def trial_phase_2(windows , sequence , key_conterblnc_dir  ):
                             core.quit()                            
 
 
-def test_phase (windows  , key_conterblnc_dir , usrId , usrName , usrAge , usrGender , usrLR ,usrMood):
+def test_phase (windows  , key_conterblnc_dir , usrId , usrName , usrAge , usrGender , usrLR , usrMood , usrDiseasRec , SAM_res):
     displayImg(windows,"instruction_3",0,True)
     event.waitKeys()
 
@@ -346,7 +371,7 @@ def test_phase (windows  , key_conterblnc_dir , usrId , usrName , usrAge , usrGe
                     elif ((keys[0][0]) == 'k' or (keys[0][0]) == 'K') : 
                         Choice.append("L")
                     elif keys[0][0] ==  'q' or keys[0][0] ==  'Q':
-                        SaveDate(usrId , usrName , usrAge , usrGender , usrLR ,usrMood, Trial , RT , RK , Choice , Cond  , Block , A_V)
+                        SaveDate(usrId , usrName , usrAge , usrGender , usrLR , usrMood , usrDiseasRec , SAM_res , Trial , RT , RK , Choice , Cond  , Block , A_V)
                         core.quit()
                         
                     
@@ -356,7 +381,7 @@ def test_phase (windows  , key_conterblnc_dir , usrId , usrName , usrAge , usrGe
                     elif ((keys[0][0]) == 'k' or (keys[0][0]) == 'K') :  
                         Choice.append("S")
                     elif keys[0][0] ==  'q' or keys[0][0] ==  'Q':
-                        SaveDate(usrId , usrName , usrAge , usrGender , usrLR , usrMood , Trial , RT , RK , Choice , Cond  , Block , A_V)
+                        SaveDate(usrId , usrName , usrAge , usrGender , usrLR , usrMood , usrDiseasRec , SAM_res , Trial , RT , RK , Choice , Cond  , Block , A_V)
                         core.quit()                  
                 RK.append((keys[0][0]))
                 RT.append((keys[0][1])+dur)
@@ -384,7 +409,7 @@ def test_phase (windows  , key_conterblnc_dir , usrId , usrName , usrAge , usrGe
                     elif ((keys[0][0]) == 'k' or (keys[0][0]) == 'K') :  
                         Choice.append("L")
                     elif keys[0][0] == 'q'or keys[0][0] ==  'Q':
-                        SaveDate(usrId , usrName , usrAge , usrGender , usrLR , usrMood , Trial , RT , RK , Choice , Cond  , Block , A_V)
+                        SaveDate(usrId , usrName , usrAge , usrGender , usrLR , usrMood , usrDiseasRec , SAM_res , Trial , RT , RK , Choice , Cond  , Block , A_V)
                         core.quit()                      
                         
                 else :
@@ -393,7 +418,7 @@ def test_phase (windows  , key_conterblnc_dir , usrId , usrName , usrAge , usrGe
                     elif ((keys[0][0]) == 'k' or (keys[0][0]) == 'K') :  
                         Choice.append("S")
                     elif keys[0][0] ==  'q' or keys[0][0] ==  'Q':
-                        SaveDate(usrId , usrName , usrAge , usrGender, usrLR , usrMood , Trial , RT , RK , Choice , Cond  , Block , A_V)
+                        SaveDate(usrId , usrName , usrAge , usrGender , usrLR , usrMood , usrDiseasRec , SAM_res , Trial , RT , RK , Choice , Cond  , Block , A_V)
                         core.quit()                      
 
                 RK.append(keys[0][0])
@@ -445,13 +470,18 @@ def Index_check(arr , maxim):
     
     
 
-def SaveDate(usrId , usrName , usrAge , usrGender ,usrLR ,usrMood , Trial , RT , RK , Choice , Cond , Block , A_V):
+def SaveDate(usrId , usrName , usrAge , usrGender , usrLR , usrMood , usrDiseasRec , SAM_res , Trial , RT , RK , Choice , Cond , Block , A_V):
     Id = []
     Name = []
     Age = []
     Gender = []
     DomHand = []
     Mood = []
+    Record = []
+    beforSAM_1 = []
+    beforSAM_2 = []
+    afterSAM_1 = []
+    afterSAM_2 = []
     maxim = max(len(RT),len(RK),len(Choice),len(Cond),len(Block),len(A_V),len(Trial))
     for i in range (maxim):
         Id.append('-')
@@ -460,12 +490,24 @@ def SaveDate(usrId , usrName , usrAge , usrGender ,usrLR ,usrMood , Trial , RT ,
         Gender.append('-') 
         DomHand.append('-')
         Mood.append('-')
+        Record.append('-')
+        beforSAM_1.append('-')
+        beforSAM_2.append('-')
+        afterSAM_1.append('-')
+        afterSAM_2.append('-')
+        
     Id[0] = usrId
     Name[0] = usrName
     Age[0] = usrAge
     Gender[0] = usrGender
     DomHand[0] = usrLR
     Mood[0] = usrMood
+    Record[0] = usrDiseasRec
+    beforSAM_1[0] = SAM_res[0][0]
+    beforSAM_2[0] = SAM_res[0][1]
+    afterSAM_1[0] = SAM_res[1][0]
+    afterSAM_2[0] = SAM_res[1][1]
+    
     if ((len(RT)+len(RK)+len(Choice)+len(Cond)+len(Block)+len(A_V)+len(Trial) / 7 )!= maxim):
         l = [Trial , RT , RK , Choice , Cond , Block , A_V]
         for ind_l in l:
@@ -477,6 +519,11 @@ def SaveDate(usrId , usrName , usrAge , usrGender ,usrLR ,usrMood , Trial , RT ,
     "Gender" : Gender ,
     "Dominant Hand" : DomHand,
     "Mood" : Mood ,
+    "Disease Record": Record ,
+    "SAM_1 result 1" : beforSAM_1 ,
+    "SAM_1 result 2" : beforSAM_2,
+    "SAM_2 result 1" : afterSAM_1 ,
+    "SAM_2 result 2" : afterSAM_2 ,
     "Block" : Block ,
     "A_V" : A_V ,
     "Cond" : Cond , 
@@ -485,5 +532,5 @@ def SaveDate(usrId , usrName , usrAge , usrGender ,usrLR ,usrMood , Trial , RT ,
     "RT" : RT , 
     "RK" : RK
     }
-    UserInfoDF = pd.DataFrame(data_dict,columns= ['Id', 'Name' ,'Age' , 'Gender' , 'Dominant Hand' ,'Mood' , 'Block','A_V' , 'Cond' , 'Trial' , 'Choice' , 'RT' , 'RK'])
+    UserInfoDF = pd.DataFrame(data_dict,columns= ['Id', 'Name' ,'Age' , 'Gender' , 'Dominant Hand' ,'Mood' , 'Disease Record' , 'SAM_1 result 1 P.U' , 'SAM_1 result 2 AR' , 'SAM_2 result 1 P.U' , 'SAM_2 result 2 AR' , 'Block','A_V' , 'Cond' , 'Trial' , 'Choice' , 'RT' , 'RK'])
     UserInfoDF.to_csv( str(usrId) + '_' + usrName + '.csv' ,index=False,header=True , line_terminator='\r\n')
