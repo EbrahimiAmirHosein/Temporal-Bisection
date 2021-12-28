@@ -24,3 +24,5 @@ The perception and processing of temporal information are tasks the brain must c
 
 <sub><sup>There are functions in `utils` file that could be usefull for any **Psychopye** project.</sup></sub>
 
+<sub><sup>English version will be added in future.</sup></sub>
+
