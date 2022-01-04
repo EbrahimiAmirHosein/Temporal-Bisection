@@ -5,7 +5,7 @@ import random
 def getUserInfo():
     DialogGui = gui.Dlg()
     DialogGui.addField(" ID: ")
-    DialogGui.addField(" Name: ")
+    DialogGui.addField(" SurName: ")
     DialogGui.addField(" Age: ")
     DialogGui.show()
 
